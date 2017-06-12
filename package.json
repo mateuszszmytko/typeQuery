@@ -2,15 +2,14 @@
   "name": "typequery",
   "version": "1.0.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mateuszszmytko/typeQuery.git"
+  },
+  "url": "https://github.com/mateuszszmytko/typeQuery",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "@types/chai": "^3.5.2",
-    "@types/core-js": "^0.9.41",
-    "@types/jquery": "^2.0.45",
-    "@types/jsdom": "^2.0.30",
-    "@types/mocha": "^2.2.41",
-    "@types/sinon": "^2.2.2",
     "awesome-typescript-loader": "^3.1.3",
     "chai": "^3.5.0",
     "css-loader": "^0.28.4",
@@ -31,6 +30,6 @@
     "test": "tsc & mocha --colors test/**/*.spec.js",
     "webpack": "webpack --progress --colors --watch"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Raa",
+  "license": "MIT"
 }
