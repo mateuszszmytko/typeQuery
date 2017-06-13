@@ -63,7 +63,7 @@ typings/
 
 #js files in source/test
 test/**/*.js
-test/**/*.map.js
+test/**/*.js.map
 
 src/**/*.js
-src/**/*.map.js
+src/**/*.js.map

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Query as q } from '../../src/query/query';
 import { QueryItemsList } from '../../src/query/queryItemsList';
-import { VirtualDOM } from '../_helpers/dom.helper';
+import { VirtualDOM } from '../helpers/dom.helper';
 
 
 describe.only('Class QueryItemsList(queryString:string, parent?:HTMLElement)', () => {
@@ -43,7 +43,6 @@ describe.only('Class QueryItemsList(queryString:string, parent?:HTMLElement)', (
 	it('Method "single", should return QueryItem instance.', () => {
 		let testQuery = q('p');
 		let queryItem = testQuery.single(q => q.class.contains('test-one') == true);
-		console.log(queryItem);
 		expect(queryItem).to.be;
 	});
 

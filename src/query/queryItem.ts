@@ -233,7 +233,6 @@ export class QueryItem {
 	 */
 
 	public define(addonString:string, addonItemCon:any, options?:any) {
-		console.log('defining rak');
 		let _addonItem = this.addons.get(addonString);
 		if(!_addonItem) {
 			let addonItem = new addonItemCon(this, options);
@@ -271,8 +270,6 @@ export class QueryItem {
 	}
 
 	public moveBefore(target:HTMLElement|QueryItem):void {
-		console.log('move before');
-		
 		this.move(target, 'beforebegin');
 	}
 

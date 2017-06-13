@@ -17,6 +17,5 @@
   "include": [
      "test/**/*",
      "src/**/*"
-  ],
-  "types": ["jquery"]
+  ]
 }

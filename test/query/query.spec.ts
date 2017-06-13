@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Query as q } from '../../src/query/query';
 import { QueryItemsList } from '../../src/query/queryItemsList';
-import { VirtualDOM } from '../_helpers/dom.helper';
+import { VirtualDOM } from '../helpers/dom.helper';
 
 
 describe('Function Query(queryString:string)', () => {
