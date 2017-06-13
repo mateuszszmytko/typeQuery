@@ -60,3 +60,10 @@ typings/
 
 # vs code stuff
 .vscode/
+
+#js files in source/test
+test/**/*.js
+test/**/*.map.js
+
+src/**/*.js
+src/**/*.map.js
