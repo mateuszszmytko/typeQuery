@@ -22,13 +22,11 @@ interface CustomValidation {
 class Validate {
     private validateDefaultOptions:ValidateOptions;
 	private messages:Messages = {
-        valueMissing: 'To pole jest wymagane.',       
+             
     };
 	
 	private qInputs:QueryItemsList;
 	private qSubmitBtn:QueryItem;
-
-    private events:Array<QueryEvent> = [];
 
 
     constructor(public owner:QueryItem, public validateOptions:ValidateOptions) {
@@ -46,21 +44,18 @@ class Validate {
 	}
 
     onDestroy() {
-        for(let event of this.events) {
-            this.owner.removeEvent(event);
-        }
-
         this.qInputs.each((qInput) => {
+            qInput.clearAll();
             qInput.raw.removeChild(qInput.raw.querySelector('.error-message'));
         });
     }
 
 	private eventsInit() {
-		let invalidEvent = this.owner.event('invalid', (e) => {
+		this.owner.event('invalid', (e) => {
 			e.preventDefault();
 		});
 
-		let submitEvent = this.qSubmitBtn.event('click', (e) => {
+		this.qSubmitBtn.event('click', (e) => {
 			this.qInputs.each((qInput) => {
 				let inputElement = <HTMLInputElement>qInput.element,
 					validationMessage = this.getValidationMessage(inputElement);
@@ -81,8 +76,6 @@ class Validate {
 			});
 		});
 
-        this.events.push(invalidEvent);
-        this.events.push(submitEvent);
 	}
 	
 	private getValidationMessage(input:HTMLInputElement):string {
