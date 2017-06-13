@@ -1,6 +1,6 @@
 {
   "name": "typequery",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "repository": {
     "type": "git",
@@ -10,25 +10,15 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "awesome-typescript-loader": "^3.1.3",
     "chai": "^3.5.0",
-    "css-loader": "^0.28.4",
-    "es6-promise-polyfill": "^1.2.0",
     "jsdom": "^11.0.0",
-    "lite-server": "^2.3.0",
     "mocha": "^3.4.1",
     "mocha-jsdom": "^1.1.0",
-    "node-sass": "^4.5.3",
-    "sass-loader": "^6.0.5",
     "sinon": "^2.3.1",
-    "source-map-loader": "^0.2.1",
-    "style-loader": "^0.18.2",
-    "typescript": "^2.3.2",
-    "webpack": "^2.5.1"
+    "typescript": "^2.3.2"
   },
   "scripts": {
-    "test": "tsc & mocha --colors test/**/*.spec.js",
-    "webpack": "webpack --progress --colors --watch"
+    "test": "tsc & mocha --colors test/**/*.spec.js"
   },
   "author": "Raa",
   "license": "MIT"
