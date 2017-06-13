@@ -62,9 +62,9 @@ export class Modal implements IAddon {
 
 	onInit() {
 
-		this.qLinks = q('[rq-modal-target="'+this.owner.attr('rq-modal-id')+'"], [href="#'+this.owner.attr('rq-modal-id')+'"]');		
+		this.qLinks = q('[qmodal-target="'+this.owner.attr('qmodal-id')+'"], [href="#'+this.owner.attr('qmodal-id')+'"]');		
 		this._modalState = ModalState.Closed;
-		this.owner.class.add('rq-modal');
+		this.owner.class.add('qmodal');
 
 		//create modal wrapper
 		const parentWrapper = document.createElement('div');
@@ -72,7 +72,7 @@ export class Modal implements IAddon {
 		this.qParent = new QueryItem(parentWrapper);
 		this.qParent.moveBefore(this.owner);	
 		this.owner.moveInto(parentWrapper);
-		this.qParent.class.add('rq-modal__wrapper');
+		this.qParent.class.add('qmodal__wrapper');
 
 		//create overlay
 		if(this.options.useOverlay) {
@@ -80,17 +80,17 @@ export class Modal implements IAddon {
 
 			this.qOverlay = new QueryItem(overlay);
 			this.qOverlay.moveBefore(this.qParent);	
-			this.qOverlay.class.add('rq-modal__overlay');
+			this.qOverlay.class.add('qmodal__overlay');
 			this.qOverlay.style.background = this.options.overlayBackground;
 		}
 		
 		
-		this.options.positionX != 'middle' ? this.qParent.class.add('rq-modal--x-'+this.options.positionX) : null;
-		this.options.positionY != 'middle' ? this.owner.class.add('rq-modal--y-'+this.options.positionY) : null;
+		this.options.positionX != 'middle' ? this.qParent.class.add('qmodal--x-'+this.options.positionX) : null;
+		this.options.positionY != 'middle' ? this.owner.class.add('qmodal--y-'+this.options.positionY) : null;
 		
 		this.initEvents();
 		
-		if(this.options.hashTracking && window.location.hash == '#'+this.owner.attr('rq-modal-id')) {
+		if(this.options.hashTracking && window.location.hash == '#'+this.owner.attr('qmodal-id')) {
 			this.openModal();
 		}
 	}
@@ -106,7 +106,7 @@ export class Modal implements IAddon {
 		if(this.options.useOverlay)
 			this.qOverlay.class.add('opened');
 
-		document.querySelector('body').classList.add('rq-modal__body');
+		document.querySelector('body').classList.add('qmodal__body');
 		await (<qAnimate>this.qParent).asyncAnimate(this.options.enterAnimation);
 
 		this.owner.triggerEvent('qmodal-open');
@@ -114,7 +114,7 @@ export class Modal implements IAddon {
 		this._modalState = ModalState.Open;
 
 		if(this.options.hashTracking)
-			window.location.hash = this.owner.attr('rq-modal-id');
+			window.location.hash = this.owner.attr('qmodal-id');
 	}
 
 	public async closeModal(reason?:string) {
@@ -129,7 +129,7 @@ export class Modal implements IAddon {
 
 		await (<qAnimate>this.qParent).asyncAnimate(this.options.closeAnimation);
 
-		document.querySelector('body').classList.remove('rq-modal__body');
+		document.querySelector('body').classList.remove('qmodal__body');
 		this.qParent.class.remove('opened');
 		
 		this.owner.triggerEvent('qmodal-closed', reason);
@@ -141,7 +141,7 @@ export class Modal implements IAddon {
 		
 		
 		this._modalState = ModalState.Closed;
-		if(this.options.hashTracking && window.location.hash == '#'+this.owner.attr('rq-modal-id')) 
+		if(this.options.hashTracking && window.location.hash == '#'+this.owner.attr('qmodal-id')) 
 			history.pushState("", document.title, window.location.pathname + window.location.search);
 		
 	}
@@ -150,19 +150,19 @@ export class Modal implements IAddon {
 		this.qParent.event('click', (e) => {
 			const target:HTMLElement = <HTMLElement>e.target;
 
-			if(target.getAttribute('rq-modal-action') == 'confirm') {
+			if(target.getAttribute('qmodal-action') == 'confirm') {
 				if(this.options.closeOnConfirm)
 					this.closeModal('confirm');
 
 				this.owner.triggerEvent('qmodal-confirm')
-			} else if(target.getAttribute('rq-modal-action') == 'cancel') {
+			} else if(target.getAttribute('qmodal-action') == 'cancel') {
 				if( this.options.closeOnCancel)
 					this.closeModal('cancel');
 
 				this.owner.triggerEvent('qmodal-cancel')
-			} else if(target.getAttribute('rq-modal-action') == 'close') {
+			} else if(target.getAttribute('qmodal-action') == 'close') {
 				this.closeModal('close');
-			} else if(target.classList.contains('rq-modal__wrapper') && this.options.closeOnOutsideClick) {
+			} else if(target.classList.contains('qmodal__wrapper') && this.options.closeOnOutsideClick) {
 				this.closeModal('outside');
 			}
 
@@ -178,11 +178,11 @@ export class Modal implements IAddon {
 		
 		if(this.options.hashTracking) {
 			this.popstateListener = () => {
-				if(window.location.hash == '#'+this.owner.attr('rq-modal-id') && this._modalState != ModalState.Open) {
+				if(window.location.hash == '#'+this.owner.attr('qmodal-id') && this._modalState != ModalState.Open) {
 					this.openModal();
 				}
 
-				if(window.location.hash != '#'+this.owner.attr('rq-modal-id') && this._modalState != ModalState.Closed) {
+				if(window.location.hash != '#'+this.owner.attr('qmodal-id') && this._modalState != ModalState.Closed) {
 					this.closeModal();
 				}
 			}

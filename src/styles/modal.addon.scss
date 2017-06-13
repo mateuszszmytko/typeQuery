@@ -1,4 +1,4 @@
-.rq-modal {
+.qmodal {
 	position: relative;
 	display: inline-block;
 	max-width: 100%;
@@ -8,19 +8,20 @@
 	border: 1px solid #ddd;
 	vertical-align: middle;
 	margin-bottom: 15px;
+	text-align: left;
 
 	padding: 30px 15px;
 
-	&.rq-modal--y-top {
+	&.qmodal--y-top {
 		vertical-align: top;
 	}
-	&.rq-modal--y-bottom {
+	&.qmodal--y-bottom {
 		vertical-align: bottom;
 	}
 
 }
 
-.rq-modal__wrapper {
+.qmodal__wrapper {
 	position: fixed;
 	display: none;
 	z-index: 102;
@@ -40,16 +41,16 @@
 		height: 100%;
 	}
 
-	&.rq-modal--x-left {
+	&.qmodal--x-left {
 		text-align: left;
 	}
-	&.rq-modal--x-right {
+	&.qmodal--x-right {
 		text-align: right;
 	}
 	
 }
 
-.rq-modal__overlay {
+.qmodal__overlay {
 	position: fixed;
 	z-index: 101;
     top: 0;
@@ -68,7 +69,7 @@
 }
 
 
-.rq-modal__close {
+.qmodal__close {
 	position: absolute;
 	left: 0;
 	top: 0;
