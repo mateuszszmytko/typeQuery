@@ -9,10 +9,15 @@
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
+  
 }
+
 
 .animated.infinite {
   animation-iteration-count: infinite;
+}
+.animated.short {
+    animation-duration: .5s;
 }
 
 @keyframes fadeIn {
@@ -25,7 +30,7 @@
   }
 }
 
-.fadeIn {
+.qAnim-fadeIn {
   animation-name: fadeIn;
 }
 
@@ -41,7 +46,7 @@
   }
 }
 
-.fadeInDown {
+.qAnim-fadeInDown {
   animation-name: fadeInDown;
 }
 
@@ -57,7 +62,7 @@
   }
 }
 
-.fadeInDownBig {
+.qAnim-fadeInDownBig {
   animation-name: fadeInDownBig;
 }
 
@@ -73,7 +78,7 @@
   }
 }
 
-.fadeInLeft {
+.qAnim-fadeInLeft {
   animation-name: fadeInLeft;
 }
 
@@ -89,7 +94,7 @@
   }
 }
 
-.fadeInLeftBig {
+.qAnim-fadeInLeftBig {
   animation-name: fadeInLeftBig;
 }
 
@@ -105,7 +110,7 @@
   }
 }
 
-.fadeInRight {
+.qAnim-fadeInRight {
   animation-name: fadeInRight;
 }
 
@@ -121,7 +126,7 @@
   }
 }
 
-.fadeInRightBig {
+.qAnim-fadeInRightBig {
   animation-name: fadeInRightBig;
 }
 
@@ -137,7 +142,7 @@
   }
 }
 
-.fadeInUp {
+.qAnim-fadeInUp {
   animation-name: fadeInUp;
 }
 
@@ -153,7 +158,7 @@
   }
 }
 
-.fadeInUpBig {
+.qAnim-fadeInUpBig {
   animation-name: fadeInUpBig;
 }
 
@@ -167,7 +172,7 @@
   }
 }
 
-.fadeOut {
+.qAnim-fadeOut {
   animation-name: fadeOut;
 }
 
@@ -182,7 +187,7 @@
   }
 }
 
-.fadeOutDown {
+.qAnim-fadeOutDown {
   animation-name: fadeOutDown;
 }
 
@@ -197,7 +202,7 @@
   }
 }
 
-.fadeOutDownBig {
+.qAnim-fadeOutDownBig {
   animation-name: fadeOutDownBig;
 }
 
@@ -212,7 +217,7 @@
   }
 }
 
-.fadeOutLeft {
+.qAnim-fadeOutLeft {
   animation-name: fadeOutLeft;
 }
 
@@ -227,7 +232,7 @@
   }
 }
 
-.fadeOutLeftBig {
+.qAnim-fadeOutLeftBig {
   animation-name: fadeOutLeftBig;
 }
 
@@ -242,7 +247,7 @@
   }
 }
 
-.fadeOutRight {
+.qAnim-fadeOutRight {
   animation-name: fadeOutRight;
 }
 
@@ -257,7 +262,7 @@
   }
 }
 
-.fadeOutRightBig {
+.qAnim-fadeOutRightBig {
   animation-name: fadeOutRightBig;
 }
 
@@ -272,7 +277,7 @@
   }
 }
 
-.fadeOutUp {
+.qAnim-fadeOutUp {
   animation-name: fadeOutUp;
 }
 
@@ -287,7 +292,7 @@
   }
 }
 
-.fadeOutUpBig {
+.qAnim-fadeOutUpBig {
   animation-name: fadeOutUpBig;
 }
 
@@ -306,7 +311,7 @@
   }
 }
 
-.rotateIn {
+.qAnim-rotateIn {
   animation-name: rotateIn;
 }
 
@@ -324,7 +329,7 @@
   }
 }
 
-.rotateInDownLeft {
+.qAnim-rotateInDownLeft {
   animation-name: rotateInDownLeft;
 }
 
@@ -342,7 +347,7 @@
   }
 }
 
-.rotateInDownRight {
+.qAnim-rotateInDownRight {
   animation-name: rotateInDownRight;
 }
 
@@ -360,7 +365,7 @@
   }
 }
 
-.rotateInUpLeft {
+.qAnim-rotateInUpLeft {
   animation-name: rotateInUpLeft;
 }
 
@@ -378,7 +383,7 @@
   }
 }
 
-.rotateInUpRight {
+.qAnim-rotateInUpRight {
   animation-name: rotateInUpRight;
 }
 
@@ -395,7 +400,7 @@
   }
 }
 
-.rotateOut {
+.qAnim-rotateOut {
   animation-name: rotateOut;
 }
 
@@ -412,7 +417,7 @@
   }
 }
 
-.rotateOutDownLeft {
+.qAnim-rotateOutDownLeft {
   animation-name: rotateOutDownLeft;
 }
 
@@ -429,7 +434,7 @@
   }
 }
 
-.rotateOutDownRight {
+.qAnim-rotateOutDownRight {
   animation-name: rotateOutDownRight;
 }
 
@@ -446,7 +451,7 @@
   }
 }
 
-.rotateOutUpLeft {
+.qAnim-rotateOutUpLeft {
   animation-name: rotateOutUpLeft;
 }
 
@@ -463,7 +468,7 @@
   }
 }
 
-.rotateOutUpRight {
+.qAnim-rotateOutUpRight {
   animation-name: rotateOutUpRight;
 }
 
@@ -479,9 +484,13 @@
   50% {
     opacity: 1;
   }
+
+  100% {
+    opacity: 1;
+  }
 }
 
-.zoomIn {
+.qAnim-zoomIn {
   animation-name: zoomIn;
 }
 
@@ -497,9 +506,12 @@
     transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
     animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
   }
+  100% {
+    opacity: 1;
+  }
 }
 
-.zoomInDown {
+.qAnim-zoomInDown {
   animation-name: zoomInDown;
 }
 
@@ -515,9 +527,12 @@
     transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);
     animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
   }
+  100% {
+    opacity: 1;
+  }
 }
 
-.zoomInLeft {
+.qAnim-zoomInLeft {
   animation-name: zoomInLeft;
 }
 
@@ -533,9 +548,12 @@
     transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);
     animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
   }
+  100% {
+    opacity: 1;
+  }
 }
 
-.zoomInRight {
+.qAnim-zoomInRight {
   animation-name: zoomInRight;
 }
 
@@ -551,9 +569,12 @@
     transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
     animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
   }
+  100% {
+    opacity: 1;
+  }
 }
 
-.zoomInUp {
+.qAnim-zoomInUp {
   animation-name: zoomInUp;
 }
 
@@ -572,7 +593,7 @@
   }
 }
 
-.zoomOut {
+.qAnim-zoomOut {
   animation-name: zoomOut;
 }
 
@@ -591,7 +612,7 @@
   }
 }
 
-.zoomOutDown {
+.qAnim-zoomOutDown {
   animation-name: zoomOutDown;
 }
 
@@ -608,7 +629,7 @@
   }
 }
 
-.zoomOutLeft {
+.qAnim-zoomOutLeft {
   animation-name: zoomOutLeft;
 }
 
@@ -625,7 +646,7 @@
   }
 }
 
-.zoomOutRight {
+.qAnim-zoomOutRight {
   animation-name: zoomOutRight;
 }
 
@@ -644,6 +665,6 @@
   }
 }
 
-.zoomOutUp {
+.qAnim-zoomOutUp {
   animation-name: zoomOutUp;
 }

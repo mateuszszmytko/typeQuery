@@ -11,11 +11,13 @@ type PartialCSSStyleDeclaration = {
     [P in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[P] | styleFunc;
 }
 
+interface IAddonConstructor<K> {
+    new (owner:QueryItem, options?:any): K;
+}
 
 export class QueryItem {
-	public unique:string = '';
 	public events:Array<QueryEvent> = [];
-	public addons:Map<string,IAddon> = new Map();
+	public addons:Array<IAddon> =[];
 
 	constructor(private _element:HTMLElement) {
 		
@@ -85,7 +87,6 @@ export class QueryItem {
 	public get style():CSSStyleDeclaration {
 		return this._element.style;
 	}
-	//public event<K extends keyof HTMLElementEventMap>(eventType:K, eventListener:(e:HTMLElementEventMap[K]) => any, eventName?:string):QueryEvent;
 	
 	public  styles(v:PartialCSSStyleDeclaration) {
 		for(let rule in v) {
@@ -179,28 +180,46 @@ export class QueryItem {
 	
 
 	/**
-	 * Creating new instances.
-	 * 
 	 * @method children(queryString?:string):QueryItemsList allows to get children
 	 * of html element as QueryItemsList.
-	 * @method child(queryString:string):QueryItem allows to get child of html element as QueryItem.
-	 * @method get parent():QueryItem allows to get parent of html element as QueryItem.
 	 */
 
 	public children(queryString?:string):QueryItemsList {
-		let items = queryString ? this._element.querySelectorAll(queryString) : this._element.children;
-		return new QueryItemsList(items)
+		let _items = queryString ? this._element.querySelectorAll(queryString) : this._element.children,
+			items:Array<HTMLElement> = [];
+		for(let i = 0; i < _items.length; i++) {
+			_items[i].parentElement == this.raw? items.push(<HTMLElement>_items[i]):null;
+		}
+
+		return new QueryItemsList(items);
 	}
+
+	/**
+	 * @method find(queryString:string):QueryItemsList allows to get children
+	 * of html element as QueryItemsList.
+	 */
+	public find(queryString:string):QueryItemsList {
+		let items = this._element.querySelectorAll(queryString);
+
+		return new QueryItemsList(items);
+	}
+
+	/**
+	 * @method child(queryString:string):QueryItem allows to get child of html element as QueryItem.
+	 */
 	public child(queryString:string):QueryItem {
 		return new QueryItem(<HTMLElement>this._element.querySelector(queryString));
 	}
+
+	/**
+	 * @method get parent():QueryItem allows to get parent of html element as QueryItem.
+	 */
 	public get parent():QueryItem {
 		return new QueryItem(<HTMLElement>this._element.parentElement);
 	}
 
 	public clone(deep:boolean = false, copyEvents:boolean = false):QueryItem {
 		const clonedNode = <HTMLElement>this._element.cloneNode(deep);
-		clonedNode.removeAttribute(this.unique);
 
 		const clonedQuery = new QueryItem(clonedNode);
 		
@@ -215,8 +234,8 @@ export class QueryItem {
 
 
 		for(let key in this.addons.keys()) {
-			let addon = this.addons.get(key);
-			clonedQuery.define(key, addon.constructor, addon.options);
+			let addon = this.addons[key];
+			clonedQuery.define(addon.constructor, addon.options);
 		}
 
 		return clonedQuery;
@@ -232,20 +251,28 @@ export class QueryItem {
 	 * @method release(addonString:string) allows to destroy AddonItem.
 	 */
 
-	public define(addonString:string, addonItemCon:any, options?:any) {
-		let _addonItem = this.addons.get(addonString);
+	public define<K extends IAddon>(addonItemCon:IAddonConstructor<K>, options?:any):K {
+		let _addonItem = this.addons.filter(a => Object.getPrototypeOf(a).constructor == addonItemCon)[0];
 		if(!_addonItem) {
-			let addonItem = new addonItemCon(this, options);
-			addonItem.onInit();
-			this.addons.set(addonString, addonItem);
+			_addonItem = new addonItemCon(this, options);
+			this.addons.push(_addonItem);
+			_addonItem.onInit();
+		}
+
+		return _addonItem as K;
+	}
+	
+	public release(addonItemCon:IAddonConstructor<IAddon>):void {
+		let _addonItem = this.addons.filter(a => Object.getPrototypeOf(a).constructor == addonItemCon)[0];
+
+		if(_addonItem) {
+			this.addons.splice(this.addons.indexOf(_addonItem), 1);
+			_addonItem.onDestroy();
 		}
 	}
-	public release(addonString:string):void {
-		let addonItem = this.addons.get(addonString);
-		if(addonItem) {
-			addonItem.onDestroy();
-			this.addons.delete(addonString);
-		}
+
+	public addon<K extends IAddon>(addonItemCon:IAddonConstructor<K>):K {
+		return this.addons.filter(a => Object.getPrototypeOf(a).constructor == addonItemCon)[0] as K;
 	}
 
 	/**
@@ -293,18 +320,22 @@ export class QueryItem {
 	 * @method prepend(target:string | QueryItem | HTMLElement)
 	 */
 
-	 public append(target:string | QueryItem | HTMLElement, position:'beforebegin'|'afterbegin'|'beforeend'|'afterend' = 'beforeend') {
-		 if(typeof target == 'string') {
-			 this._element.insertAdjacentHTML(position, target);
+	 public append(target:string | QueryItem | HTMLElement, position:'beforebegin'|'afterbegin'|'beforeend'|'afterend' = 'beforeend'):HTMLElement {
+		 if(typeof target === 'string') {
+			 let element = document.createElement('div');
+			 element.innerHTML = target;
+			 return <HTMLElement>this._element.insertAdjacentElement(position, <HTMLElement>element.firstChild);
 		 } else if(isQueryItem(target)) {
-			 this._element.insertAdjacentElement(position, target.element);
+			 return <HTMLElement>this._element.insertAdjacentElement(position, target.element);
 		 } else if(isHTMLElement(target)) {
-			 this._element.insertAdjacentElement(position, target);
+			 return <HTMLElement>this._element.insertAdjacentElement(position, target);
 		 }
+
+
 	 }
 
-	 public prepend(target:string | QueryItem | HTMLElement) {
-		 this.append(target, 'afterbegin');
+	 public prepend(target:string | QueryItem | HTMLElement):HTMLElement {
+		 return this.append(target, 'afterbegin');
 	 }
 
 
@@ -337,10 +368,10 @@ export class QueryItem {
 		this.addons.forEach(a => {
 			a.onDestroy();
 		});
-		this.addons.clear();
+		this.addons = [];
 	}
 
-	public clearAll() {
+	public clear() {
 		this.onDestroy();
 	}
 
@@ -356,12 +387,3 @@ export class QueryItem {
 
 }
 
-/*
-appear (triggerowanie pojawiania się elementów)
-animate.js?
-tabs
-modals
-
-scrollto
-
- */

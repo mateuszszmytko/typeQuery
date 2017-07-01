@@ -46,7 +46,7 @@ export class QueryEvent {
 	public pauseEvent() {
 		if(this.state == EventState.INACTIVE )
 			return;
-		console.log('stopEvent');
+			
 		if(typeof this.eventType === 'string') {
 			this.el.removeEventListener(this.eventType, this.eventListener);
 		} else {

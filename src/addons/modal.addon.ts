@@ -61,8 +61,8 @@ export class Modal implements IAddon {
 	}
 
 	onInit() {
-
 		this.qLinks = q('[qmodal-target="'+this.owner.attr('qmodal-id')+'"], [href="#'+this.owner.attr('qmodal-id')+'"]');		
+
 		this._modalState = ModalState.Closed;
 		this.owner.class.add('qmodal');
 
@@ -107,7 +107,7 @@ export class Modal implements IAddon {
 			this.qOverlay.class.add('opened');
 
 		document.querySelector('body').classList.add('qmodal__body');
-		await (<qAnimate>this.qParent).asyncAnimate(this.options.enterAnimation);
+		await (<qAnimate>this.owner).asyncAnimate(this.options.enterAnimation);
 
 		this.owner.triggerEvent('qmodal-open');
 		
@@ -127,7 +127,7 @@ export class Modal implements IAddon {
 		if(this.options.useOverlay)
 			this.qOverlay.class.remove('opened');
 
-		await (<qAnimate>this.qParent).asyncAnimate(this.options.closeAnimation);
+		await (<qAnimate>this.owner).asyncAnimate(this.options.closeAnimation);
 
 		document.querySelector('body').classList.remove('qmodal__body');
 		this.qParent.class.remove('opened');
@@ -203,8 +203,8 @@ export class Modal implements IAddon {
 		if(this.options.hashTracking)
 			window.removeEventListener('popstate', this.popstateListener);
 
-		this.qLinks.each(qLink => qLink.clearAll());
-		console.log('modal destroy');
+		this.qLinks.each(qLink => qLink.clear());
+
 	}
 
 	

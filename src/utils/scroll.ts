@@ -53,7 +53,6 @@ class _scrollTo {
 				
 				window.scrollTo(0, position);
 				var currentLocation = window.pageYOffset;
-				console.log(currentLocation, this.endLocation, percentage, position, this.distance);
 				if ( currentLocation == this.endLocation || percentage == 1  || ( (window.innerHeight + currentLocation) >= document.body.scrollHeight ) ) {
 					clearInterval(this.animationInterval);
 					resolve();

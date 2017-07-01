@@ -49,38 +49,36 @@ export type qAnimateType =
 
 export class qAnimate extends QueryItem implements IMixin {
 
-	animate(animType:qAnimateType, infinite:boolean = false) {
-		if(this.class.contains('animated'))
-			return;
-		
+	animate(animType:qAnimateType, short:boolean = false, infinite:boolean = false) {
 		this.class.add('animated');
-		this.class.add(animType);
-		if(infinite) {
-			this.class.add('infinite');
-		} else {
+
+		//clear all animations
+		let classes = this.raw.className.split(" ").filter(function(c) {
+			return c.lastIndexOf('qAnim-', 0) !== 0;
+		});
+		this.raw.className = classes.join(" ").trim();
+
+		this.class.add('qAnim-'+animType);
+		infinite? this.class.add('infinite'): null;
+		short? this.class.add('short'): null;
+		if(!infinite) {
 			this.eventOnce(['webkitAnimationEnd', 'mozAnimationEnd', 'MSAnimationEnd', 'oanimationend', 'animationend'], (e) => {
-				if(this.class.contains(animType)){
-					this.triggerEvent('qAnimEnd', {animType:animType});
-					this.class.remove('animated');
-					this.class.remove(animType);
-				}
+				this.class.remove('qAnim-'+animType);
+				this.triggerEvent('qAnimEnd', {animType:animType});
 			});
 		}
 
 	}
 
-	async asyncAnimate(animType:qAnimateType):Promise<qAnimateType> {
-		this.class.add('animated');
-		this.class.add(animType);
-
-		return new Promise<qAnimateType>(resolve => {
-			this.eventOnce(['webkitAnimationEnd', 'mozAnimationEnd', 'MSAnimationEnd', 'oanimationend', 'animationend'], (e) => {
-				if(this.class.contains(animType)) {
-					resolve(animType);
-					this.class.remove(animType);
-				}
+	async asyncAnimate(animType:qAnimateType, short:boolean = false):Promise<qAnimateType> {
+		const animPromise = new Promise<qAnimateType>(resolve => {
+			this.eventOnce('qAnimEnd', () => {
+				resolve();
 			});
 		});
+		this.animate(animType, short, false);
+
+		return animPromise;
 		
 	}
 }

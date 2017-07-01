@@ -15,15 +15,19 @@ export function _App(options) {
 				}
 			}
 		}
-		let pageName = document.querySelector('body').getAttribute('data-page');
-		if(pageName && options.pages && options.pages[pageName]) {
-			constructor.prototype.page =  new options.pages[pageName]();
+		constructor.prototype.__pageDeclaration = function() {
+			const pageName = document.querySelector('body').getAttribute('data-page');
+			if(pageName && options.pages && options.pages[pageName]) {
+				constructor.prototype.page =  new options.pages[pageName]();
+			}
 		}
+		
 
 		
 
 		constructor.prototype.__appInit = function() {
 			this.__appMixins();
+			this.__pageDeclaration();
 			this.onInit();
 
 			if(this.page)
