@@ -40,19 +40,20 @@ export class Stick implements IAddon {
 		this.qParent.moveBefore(this.owner);
 		this.qParent.class.add('sticky-wrapper');
 
-		console.log(this.qParent.unique, this.qParent.element);
 		//insert owner into parent wrapper
 		this.owner.moveInto(parentWrapper);
 		this.qParent.style.height = this.owner.raw.clientHeight+'px';
 
-
+		
 		this.scroll(() => {
 			this.stickCheck();
 		})
 	}
 
 	scroll(func:() => void) {
+		
 		this.scrollFunc = func;
+		this.scrollFunc(null);
 		document.addEventListener('scroll', this.scrollFunc);
 	}
 
@@ -75,13 +76,15 @@ export class Stick implements IAddon {
 		}
 	}
 	private stickAdd() {
+		this.owner.styles({
+			'top': this.options.offset+'px',
+			'width': this.owner.raw.clientWidth+'px'
+		});
 		this.owner.triggerEvent('stick', this.owner.raw);
 		this.owner.class.add('sticked');
 
 		
-		this.owner.styles({
-			'top': this.options.offset+'px'
-		});
+		
 
 		this.stickState = StickState.STICK;
 	}
@@ -89,6 +92,7 @@ export class Stick implements IAddon {
 		this.owner.triggerEvent('unstick', this.owner.raw);
 		this.owner.class.remove('sticked');
 		this.owner.style.top = '';
+		this.owner.style.width = '';
 		this.stickState = StickState.UNSTICK;
 	}
 

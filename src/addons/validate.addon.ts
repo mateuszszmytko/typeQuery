@@ -45,7 +45,7 @@ class Validate {
 
     onDestroy() {
         this.qInputs.each((qInput) => {
-            qInput.clearAll();
+            qInput.clear();
             qInput.raw.removeChild(qInput.raw.querySelector('.error-message'));
         });
     }

@@ -37,23 +37,25 @@ export class qReveal extends QueryItem implements IMixin {
 			this.event('appear', async e => {
 				if(options.delay > 0) {
 					await delay(options.delay);
-					if(!(<any>this).isAppeared()) {
+					if(!(<any>this).isAppeared(_options)) {
 						return;
 					}
 				}
-
+				
 				await (<any>this).asyncAnimate(options.enterAnimation);
+				this.style.opacity = "1";
 			});
 			
 			this.event('disappear', async e => {
 				if(options.delay > 0) {
 					await delay(options.delay);
-					if((<any>this).isAppeared()) {
+					if((<any>this).isAppeared(_options)) {
 						return;
 					}
 				}
 					
 				await (<any>this).asyncAnimate(options.exitAnimation);
+				this.style.opacity = "0";
 			});
 
 			(<any>this).appear(options);
@@ -61,7 +63,7 @@ export class qReveal extends QueryItem implements IMixin {
 			this.eventOnce('appear', async e => {
 				if(options.delay > 0) {
 					await delay(options.delay);
-					if(!(<any>this).isAppeared()) {
+					if(!(<any>this).isAppeared(_options)) {
 						return;
 					}
 				}

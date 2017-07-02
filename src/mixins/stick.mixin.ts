@@ -12,6 +12,6 @@ interface stickOptions {
 
 export class qStick extends QueryItem implements IMixin {
     public stick(options?:stickOptions) {
-		this.define('stick', Stick, options);
+		this.define(Stick, options);
 	}
 }
