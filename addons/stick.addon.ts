@@ -67,6 +67,7 @@ export class Stick implements IAddon {
 	}
 
 	private stickCheck() {
+
 		if(this.qParent.offset.top <= (window.pageYOffset + this.options.offset)
 			&& this.stickState == StickState.UNSTICK) {
 			this.stickAdd();

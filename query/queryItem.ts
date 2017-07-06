@@ -3,12 +3,17 @@ import {QueryEvent} from './queryEvent';
 import {QueryItemsList} from './queryItemsList';
 
 import { IAddon } from '../core/interfaces/addon.interface';
+import { modalOptions } from '../addons/modal.addon';
 
 import { isQueryItem, isQueryItemsList, isHTMLElement, isNodeListOf } from '../core/typeguards';
 
 type styleFunc = (qItem:QueryItem) => string;
 type PartialCSSStyleDeclaration = {
     [P in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[P] | styleFunc;
+}
+
+interface IAddonTest<K> {
+	'Modal':modalOptions
 }
 
 interface IAddonConstructor<K> {
@@ -155,8 +160,8 @@ export class QueryItem {
 	}
 	
 	public asyncEvent<K extends keyof HTMLElementEventMap>(eventType:K, condition?:(e:HTMLElementEventMap[K]) => boolean):Promise<HTMLElementEventMap[K]>
-	public asyncEvent(eventType:string, condition?:(e:CustomEvent) => boolean):Promise<CustomEvent>
-	public asyncEvent<K extends keyof HTMLElementEventMap>(eventType, condition):Promise<CustomEvent> {
+	public asyncEvent(eventType:string, condition?:(e:Event) => boolean):Promise<CustomEvent>
+	public asyncEvent<K extends keyof HTMLElementEventMap>(eventType, condition):any {
 
 		let promise = new Promise<HTMLElementEventMap[K]|CustomEvent>((resolve, reject) => {
 			let eventListener:EventListener = (e) => {
@@ -173,7 +178,15 @@ export class QueryItem {
 		
 	}
 	public triggerEvent(eventType:string, detail:any = null):void {
-		let event = new CustomEvent(eventType, {detail: detail});
+		let event;
+		try {
+			event = new CustomEvent(eventType, {detail: detail});
+		} catch(e) {
+			event = document.createEvent('Event');
+			event.initEvent(eventType, true, true);
+			event.detail = detail;
+		}
+		
 		this._element.dispatchEvent(event);
 	}
 
@@ -251,7 +264,7 @@ export class QueryItem {
 	 * @method release(addonString:string) allows to destroy AddonItem.
 	 */
 
-	public define<K extends IAddon>(addonItemCon:IAddonConstructor<K>, options?:any):K {
+	public define<K extends IAddon>(addonItemCon:IAddonConstructor<K>, options?:{[key:string]:any}):K {
 		let _addonItem = this.addons.filter(a => Object.getPrototypeOf(a).constructor == addonItemCon)[0];
 		if(!_addonItem) {
 			_addonItem = new addonItemCon(this, options);

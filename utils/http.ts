@@ -72,12 +72,12 @@ export class Http {
             };
         });
         let dataString = this.parseData(settings.data);
-        http_request.open(requestType, url+(dataString && requestType == 'GET'?'?'+dataString:null), true, settings.user, settings.password);
+        http_request.open(requestType, url+(dataString && requestType == 'GET'?'?'+dataString:''), true, settings.user, settings.password);
         for(let header in settings.headers) {
             http_request.setRequestHeader(header, settings.headers[header]);
         }
         if(requestType == 'GET')
-        http_request.send(dataString && requestType != 'GET'?dataString:null);
+        http_request.send(dataString && requestType != 'GET'?dataString:'');
 
         return promise;
     }
